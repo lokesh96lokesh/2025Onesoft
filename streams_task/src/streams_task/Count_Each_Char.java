@@ -23,5 +23,18 @@ public class Count_Each_Char {
 		            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
 		        System.out.println(listcharCount);
+		        
+		        /*You can achieve the same functionality without using flatMapToInt by 
+		         * utilizing flatMap and split("") to break each string into individual characters
+		         *  before collecting them into a map. Here's the updated code:
+		         */
+		        List<String> ncount1 = Arrays.asList("loki", "anu", "Priya");
+
+		        Map<Character, Long> listcharCount1 = ncount1.stream()
+		            .flatMap(s -> Arrays.stream(s.split(""))) // Split each string into individual characters
+		            .map(s -> s.charAt(0)) // Convert String to Character
+		            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+		        System.out.println(listcharCount1);
 		    }
 }
