@@ -2,7 +2,6 @@ package streams_task;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Any_match {
 	public static void main(String[] args) {

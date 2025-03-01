@@ -17,5 +17,4 @@ public class fLAT_mAP {
 				.collect(Collectors.toList());
 		flat.forEach(x->System.out.println(x));
 	}
-
 }
