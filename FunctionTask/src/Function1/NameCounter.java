@@ -15,6 +15,7 @@ public class NameCounter {
 	    public static Map<String, Integer> countEmployeeNames(List<Employee> employees) {
 	        Map<String, Integer> nameCount = new HashMap<>();
 	        for (Employee e : employees) {
+	        	
 	            nameCount.put(e.getName(), nameCount.getOrDefault(e.getName(), 0) + 1);
 	        }
 	        return nameCount;

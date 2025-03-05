@@ -7,10 +7,10 @@ public class ValidEmail {
 		email(mail);
 	}
 	public static void email(String mail) {
-		if(mail.equals("loki@gmail.com"))
-			System.out.println("Valid Email Id");
+		if(mail.contains("@gmail.com"))
+			System.out.println("Valid mailId");
 		else
-			System.out.println("Invalid Email Id");
+			System.out.println("Invalid mailId");
 	}
 	
 }

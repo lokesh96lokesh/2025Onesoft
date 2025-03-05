@@ -3,7 +3,7 @@ package Function1;
 public class ReturnOnlyVowel {
 
 	    public static void main(String[] args) {
-	        String input = "Hello World";
+	        String input = "Hello loki";
 	        System.out.println("Vowels: " + extractVowels(input));
 	    }
 	    public static String extractVowels(String input) {

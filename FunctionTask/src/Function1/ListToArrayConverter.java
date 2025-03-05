@@ -11,6 +11,9 @@ public class ListToArrayConverter {
 	    }
 	    public static Integer[] convertListToArray(List<Integer> list) {
 	        return list.toArray(new Integer[0]);
+	               //list.stream().toArray(Integer[]::new);
+	        
 	    }
+	    
 
 	}

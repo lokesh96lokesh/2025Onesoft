@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class DuplicateCounter {
 
@@ -15,6 +16,7 @@ public class DuplicateCounter {
 	        );
 
 	        System.out.println("Duplicate Names Count: " + countDuplicateNames(employees));
+	        System.out.println("Duplicate Names Count using stream: " + countDuplicateNames1(employees));
 	    }
 	    public static int countDuplicateNames(List<Employee> employees) {
 	        Map<String, Integer> nameCount = new HashMap<>();
@@ -28,5 +30,12 @@ public class DuplicateCounter {
 	            }
 	        }
 	        return duplicateCount;
+	    }
+	    public static long countDuplicateNames1(List<Employee> employees) {
+	        return employees.stream()
+	                .collect(Collectors.groupingBy(Employee::getName, Collectors.counting()))
+	                .values().stream()
+	                .filter(count -> count > 1)
+	                .count();
 	    }
 	}
