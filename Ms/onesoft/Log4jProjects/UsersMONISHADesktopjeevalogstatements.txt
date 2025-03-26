@@ -1,0 +1,4 @@
+INFO    2025-03-20 14:38:09,014 [restartedMain] com.log4a.Log4aProjectsApplication - information
+ERROR   2025-03-20 14:38:09,014 [restartedMain] com.log4a.Log4aProjectsApplication - error
+WARN    2025-03-20 14:38:09,014 [restartedMain] com.log4a.Log4aProjectsApplication - Warning
+FATAL   2025-03-20 14:38:09,014 [restartedMain] com.log4a.Log4aProjectsApplication - crictical error
