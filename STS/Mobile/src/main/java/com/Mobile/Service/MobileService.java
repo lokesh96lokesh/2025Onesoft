@@ -1,6 +1,7 @@
 package com.Mobile.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,5 +92,12 @@ public class MobileService {
             throw new StorageCapacityException("No Model available with the given Storage");
         }
         return mobiledao.getcapacitymorethan64(a,b);
+    }
+    
+    public List<Mobile> getByBrands( String brand) {
+    	return mobiledao.getByBrands()
+    			.stream()
+                .filter(x -> x.getBrand().equals(brand))
+                .collect(Collectors.toList());
     }
 }

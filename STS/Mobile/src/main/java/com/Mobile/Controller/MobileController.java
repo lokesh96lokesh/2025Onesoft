@@ -3,6 +3,7 @@ package com.Mobile.Controller;
 import java.util.List;
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import com.Mobile.exception.ColorNotFoundException;
 import com.Mobile.exception.ModelStartsWithException;
 import com.Mobile.exception.StorageCapacityException;
 import com.Mobile.exception.YearNotFoundException;
+
 
 @RestController
 	@RequestMapping("/mobiles")
@@ -91,5 +93,12 @@ import com.Mobile.exception.YearNotFoundException;
 	    	
 	    	return mobileService.getcapacitymorethan64(a,b);
 	    }
+	    
+	    //get by brand
+	    @GetMapping("/getbybrands/{brand}")
+	    public List<Mobile> getByBrands(@PathVariable String brand) {
+	    	return mobileService.getByBrands(brand);
+	    }
+	    
 	    
 }

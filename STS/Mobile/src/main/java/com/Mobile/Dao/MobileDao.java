@@ -2,8 +2,8 @@ package com.Mobile.Dao;
 
 import java.util.List;
 
-import java.util.Optional;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.Mobile.Model.Mobile;
@@ -75,6 +75,12 @@ public List<Mobile> getcapacitymorethan64( int a,int b) throws StorageCapacityEx
 	
 	return mobileRepository.getcapacitymorethan64( a, b);
 }
+
+public List<Mobile> getByBrands() {
+    return mobileRepository.findAll();
+            
+}
+
 	
 
 }
