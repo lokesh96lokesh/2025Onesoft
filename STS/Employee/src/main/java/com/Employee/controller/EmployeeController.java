@@ -1,6 +1,10 @@
 package com.Employee.controller;
 
 import java.util.List;
+
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,96 +29,106 @@ import java.util.Map;
 public class EmployeeController {
 @Autowired
 EmployeeService es;
-	
-    //Add a new Employee
-    @PostMapping(value="/add")
-    public String addEmployee(@RequestBody EmployeeModel e) {
-    	
-    	return es.addEmployee(e);
-    }
-    
-  //Add a list new Employee
-    @PostMapping(value="/addlist")
-    public String addmoreEmployee(@RequestBody List<EmployeeModel> e) {
-    	
-    	return es.addmoreEmployee(e);
-    }
-    
-  //get a list new Employee
-    @GetMapping(value="/alllist")
-    public List<EmployeeModel> GetEmployee() {
-    	
-    	return es.GetEmployee();
-    }
-    
-  //get by id Employee
-    @GetMapping(value="/getbyid/{id}")
-    public EmployeeModel GetEmployeebyid(@PathVariable int id) {
-    	
-    	return es.GetEmployeebyid(id);
-    }
-    
-  //get by id Employee
-    @DeleteMapping(value="/deletebyid/{id}")
-    public String dltEmployeebyid(@PathVariable int id) {
-    	
-    	return es.dltEmployeebyid(id);
-    }
-   
-  //update by id Employee
-    @PutMapping(value="/updatebyid/{id}")
-    public String updatebyid(@PathVariable int id,@RequestBody EmployeeModel e ) {
-    	
-    	return es.updatebyid(id,e);
-    }
-    
-  //update by id Employee
-    @PatchMapping(value="/updatebyid1/{id}")
-    public String updatebyid1(@PathVariable int id,@RequestBody EmployeeModel e ) {
-    	
-    	return es.updatebyid1(id,e);
-    }
-    //DateConverter
-    @GetMapping("/{day}/{month}/{year}")
-    public String convertDate(@PathVariable String day, @PathVariable String month, @PathVariable String year) {
-        String input = day + " " + month + "," + year;
-        DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("dd MMMM,yyyy", Locale.ENGLISH);
-        DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+static Logger log = Logger.getLogger(EmployeeController.class);
+static {
+    PropertyConfigurator.configure("log4j.properties");
+}
 
-        LocalDate date = LocalDate.parse(input, inputFormat);
-        return date.format(outputFormat);
+@PostMapping(value="/add")
+public String addEmployee(@RequestBody EmployeeModel e) {
+    log.info("Adding Employee: " + e);
+    String result = es.addEmployee(e);
+    log.info("Result: " + result);
+    return result;
+}
+
+@PostMapping(value="/addlist")
+public String addMoreEmployees(@RequestBody List<EmployeeModel> e) {
+    log.info("Adding Employee List: " + e);
+    String result = es.addmoreEmployee(e);
+    log.info("Result: " + result);
+    return result;
+}
+
+@GetMapping(value="/alllist")
+public List<EmployeeModel> getAllEmployees() {
+    log.info("Fetching all employees");
+    List<EmployeeModel> employees = es.GetEmployee();
+    log.info("Result: " + employees);
+    return employees;
+}
+
+@GetMapping(value="/getbyid/{id}")
+public EmployeeModel getEmployeeById(@PathVariable int id) {
+    log.info("Fetching Employee by ID: " + id);
+    EmployeeModel employee = es.GetEmployeebyid(id);
+    log.info("Result: " + employee);
+    return employee;
+}
+
+@DeleteMapping(value="/deletebyid/{id}")
+public String deleteEmployeeById(@PathVariable int id) {
+    log.info("Deleting Employee by ID: " + id);
+    String result = es.dltEmployeebyid(id);
+    log.info("Result: " + result);
+    return result;
+}
+
+@PutMapping(value="/updatebyid/{id}")
+public String updateEmployeeById(@PathVariable int id, @RequestBody EmployeeModel e) {
+    log.info("Updating Employee by ID: " + id + " with Data: " + e);
+    String result = es.updatebyid(id, e);
+    log.info("Result: " + result);
+    return result;
+}
+
+@PatchMapping(value="/updatebyid1/{id}")
+public String partialUpdateEmployeeById(@PathVariable int id, @RequestBody EmployeeModel e) {
+    log.info("Partially Updating Employee by ID: " + id + " with Data: " + e);
+    String result = es.updatebyid1(id, e);
+    log.info("Result: " + result);
+    return result;
+}
+
+@GetMapping("/{day}/{month}/{year}")
+public String convertDate(@PathVariable String day, @PathVariable String month, @PathVariable String year) {
+    log.info("Converting Date: " + day + " " + month + " " + year);
+    String input = day + " " + month + "," + year;
+    DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("dd MMMM,yyyy", Locale.ENGLISH);
+    DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    LocalDate date = LocalDate.parse(input, inputFormat);
+    String formattedDate = date.format(outputFormat);
+    log.info("Converted Date: " + formattedDate);
+    return formattedDate;
+}
+
+@GetMapping("/charcount/{input}")
+public String findCharacterCounts(@PathVariable String input) {
+    log.info("Finding character counts for: " + input);
+    Map<Character, Integer> map = new LinkedHashMap<>();
+    for (char c : input.toCharArray()) {
+        map.put(c, map.getOrDefault(c, 0) + 1);
     }
-    //CharacterCount
-    @GetMapping("/{input}")
-    public String findCharacterCounts(@PathVariable String input) {
-        Map<Character, Integer> map = new LinkedHashMap<>();
-
-        for (char c : input.toCharArray()) {
-            map.put(c, map.getOrDefault(c, 0) + 1);
-        }
-
-        StringBuilder result = new StringBuilder();
-        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
-            result.append(entry.getKey()).append(entry.getValue());
-        }
-
-        return result.toString();
+    StringBuilder result = new StringBuilder();
+    for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+        result.append(entry.getKey()).append(entry.getValue());
     }
-    
-    //Frequency
-    @GetMapping("/count/{input}")
-    public String getCharacterFrequency(@PathVariable String input) {
-        Map<Character, Integer> map = new LinkedHashMap<>();
+    log.info("Character Counts: " + result);
+    return result.toString();
+}
 
-        for (char c : input.toCharArray()) {
-            map.put(c, map.getOrDefault(c, 0) + 1);
-        }
-
-        StringBuilder result = new StringBuilder();
-        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
-            result.append(entry.getKey()).append(entry.getValue());
-        }
-
-        return result.toString();
+@GetMapping("/count/{input}")
+public String getCharacterFrequency(@PathVariable String input) {
+    log.info("Getting character frequency for: " + input);
+    Map<Character, Integer> map = new LinkedHashMap<>();
+    for (char c : input.toCharArray()) {
+        map.put(c, map.getOrDefault(c, 0) + 1);
     }
+    StringBuilder result = new StringBuilder();
+    for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+        result.append(entry.getKey()).append(entry.getValue());
+    }
+    log.info("Character Frequency: " + result);
+    return result.toString();
+}
 }
