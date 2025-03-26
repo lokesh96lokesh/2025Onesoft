@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: GST
+  datasource:
+    url: jdbc:mysql://localhost:3306/gst
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+server:
+  port: 8081
