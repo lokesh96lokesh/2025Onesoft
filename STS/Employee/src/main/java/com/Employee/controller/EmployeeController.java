@@ -6,6 +6,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -15,6 +19,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
 import com.Employee.Model.EmployeeModel;
 import com.Employee.service.EmployeeService;
 import java.time.LocalDate;
@@ -22,16 +28,51 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping(value="/emp")
 public class EmployeeController {
-@Autowired
-EmployeeService es;
+	@Autowired
+	RestTemplate rt;
+	
+	//filed based depencdency
+    @Autowired
+    EmployeeService ea;
+	
+	
+	//constructor based depencdency
+	private EmployeeService es;
+	public EmployeeController (EmployeeService es) {
+		this.es=es;
+	}
+    
+    @Value("${myName}")
+    String name;
+    
+String url="http://localhost:8080/mobiles/String";
 static Logger log = Logger.getLogger(EmployeeController.class);
 static {
     PropertyConfigurator.configure("log4j.properties");
+}
+
+@GetMapping("getvalue")
+public String getName() {
+    return name;
+}
+
+@GetMapping("getvalue1")
+public String getName1(@Value("${myName1}")String name) {
+    return name;
+}
+
+
+@GetMapping("/getrest")
+public String getMsg() {
+	return rt.exchange(url,HttpMethod.GET,null,String.class).getBody();
 }
 
 @PostMapping(value="/add")
@@ -53,7 +94,7 @@ public String addMoreEmployees(@RequestBody List<EmployeeModel> e) {
 @GetMapping(value="/alllist")
 public List<EmployeeModel> getAllEmployees() {
     log.info("Fetching all employees");
-    List<EmployeeModel> employees = es.GetEmployee();
+    List<EmployeeModel> employees = ea.GetEmployee();
     log.info("Result: " + employees);
     return employees;
 }
